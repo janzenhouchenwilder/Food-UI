@@ -9,11 +9,12 @@ import Foundation
 
 struct Food : Decodable, Identifiable {
     var brand_name: String?
-    var food_description: String
+//    var food_description: String
     var food_id: String
     var food_name: String
     var food_type: String
     var food_url: String
+    var food_description: FoodDescription
 
     var id: String { food_id }
 }
@@ -27,4 +28,12 @@ struct Foods : Decodable {
 
 struct FoodSearchResponse: Decodable {
     var foods: Foods
+}
+
+struct FoodDescription: Decodable {
+    var serving_size: String
+    var calories: String
+    var fat: String
+    var carbs: String
+    var protein: String
 }

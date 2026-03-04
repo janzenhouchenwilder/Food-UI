@@ -32,9 +32,23 @@ final class FoodViewModel: ObservableObject {
         do {
             let result = try await apiClient.getFoods(food: food)
             foodResult = result
+        } catch let error as APIError {
+            switch error {
+            case .badStatus(let code):
+                errorMessage = "Bad Http Status \(code)"
+            case .invalidURL:
+                errorMessage = "Invalid request URL."
+            case .invalidResponse:
+                errorMessage = "Server returned an invalid response."
+            case .decodingFailed:
+                errorMessage = "Unable to get food data."
+            case .serverError(let code):
+                errorMessage = "Server error: \(code)"
+            case .networkError:
+                errorMessage = "Network connection failed."
+            }
         } catch {
-            errorMessage = (error as? LocalizedError)?.errorDescription
-                ?? error.localizedDescription
+            errorMessage = "An error occurred while getting foods. Please try again."
         }
 
         isLoading = false
