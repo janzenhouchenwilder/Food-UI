@@ -41,20 +41,24 @@ struct FoodView: View {
                 }
                 
                 List(vm.foodResult) { food in
-                    VStack(alignment: .leading) {
-                        Text(food.food_name)
-                            .font(.headline)
+                    NavigationLink {
+                            FoodDetailView(food: food)
+                    } label: {
+                        VStack(alignment: .leading) {
+                            Text(food.food_name)
+                                .font(.headline)
                             
-                        if let brand = food.brand_name {
-                            Text(brand)
+                            if let brand = food.brand_name {
+                                Text(brand)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            
+                            Text(food.food_description.serving_size)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
+                                .lineLimit(2)
                         }
-                            
-                        Text(food.food_description)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(2)
                     }
                 }
                 .scrollDismissesKeyboard(.interactively)

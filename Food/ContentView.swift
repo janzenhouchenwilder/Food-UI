@@ -14,7 +14,6 @@ struct ContentView: View {
         NavigationStack {
             VStack(spacing: 20) {
                 
-                // 🔹 BUTTON THAT NAVIGATES TO AUTH VIEW
                 NavigationLink("Authenticate") {
                     AuthView()
                 }

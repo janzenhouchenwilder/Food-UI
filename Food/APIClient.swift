@@ -8,15 +8,27 @@
 import Foundation
 
 enum APIError: Error, LocalizedError {
-    case invalidURL
     case badStatus(Int)
-    case decoding(Error)
+    case invalidURL
+    case invalidResponse
+    case decodingFailed
+    case serverError(Int)
+    case networkError
 
     var errorDescription: String? {
         switch self {
-        case .invalidURL: return "Invalid URL"
-        case .badStatus(let code): return "Bad HTTP status: \(code)"
-        case .decoding(let err): return "Decoding error: \(err.localizedDescription)"
+        case .badStatus(let code):
+            return "Bad HTTP status: \(code)"
+        case .invalidURL:
+            return "Invalid request URL."
+        case .invalidResponse:
+            return "Invalid response from server."
+        case .decodingFailed:
+            return "Unable to get food data."
+        case .serverError(let code):
+            return "Server error (\(code))."
+        case .networkError:
+            return "Network connection error."
         }
     }
 }
@@ -40,7 +52,7 @@ final class APIClient {
         do {
             return try JSONDecoder().decode(Booking.self, from: data)
         } catch {
-            throw APIError.decoding(error)
+            throw APIError.decodingFailed
         }
     }
 }
@@ -71,7 +83,7 @@ extension APIClient {
         do {
             return try JSONDecoder().decode(AuthResponse.self, from: data)
         } catch {
-            throw APIError.decoding(error)
+            throw APIError.decodingFailed
         }
     }
 }
@@ -103,7 +115,7 @@ extension APIClient {
             do {
                 return try JSONDecoder().decode([Food].self, from: data)
             } catch {
-                throw APIError.invalidURL
+                throw APIError.decodingFailed
             }
         }
     }
