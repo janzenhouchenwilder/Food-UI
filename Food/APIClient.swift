@@ -120,3 +120,45 @@ extension APIClient {
         }
     }
 }
+
+extension APIClient {
+    func getRecipes(searchTerm: String,
+                    maxCalories: Int?,
+                    maxPrepTime: Int?,
+                    maxFatPercent: Int?,
+                    maxCarbs: Int?) async throws -> [Recipe] {
+        guard let url = URL(string: "http://127.0.0.1:5000/recipe") else {
+            throw APIError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let recipe = RecipesSearchRequest(method:"",
+                                          search_expression:searchTerm,
+                                          calories_to:maxCalories,
+                                          carb_percentage_to:maxCarbs, 
+                                          fat_percentage_to:maxFatPercent,
+                                          prep_time_to:maxPrepTime
+        )
+        
+        request.httpBody = try JSONEncoder().encode(recipe)
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        if let http = response as? HTTPURLResponse {
+            print("HTTP status:", http.statusCode)
+        }
+        
+        print("Raw JSON:", String(data: data, encoding: .utf8) ?? "<not utf8>")
+        
+        do {
+            let decoded = try JSONDecoder().decode(RecipesResponse.self, from: data)
+            return decoded.recipes.recipe ?? []
+        } catch DecodingError.keyNotFound(let key, let context) {
+            print("Missing key:", key.stringValue, context.debugDescription)
+            throw APIError.decodingFailed
+        }
+    }
+}

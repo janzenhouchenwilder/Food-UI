@@ -42,7 +42,7 @@ struct FoodView: View {
                 
                 List(vm.foodResult) { food in
                     NavigationLink {
-                            FoodDetailView(food: food)
+                        FoodDetailView(food: food)
                     } label: {
                         VStack(alignment: .leading) {
                             Text(food.food_name)
