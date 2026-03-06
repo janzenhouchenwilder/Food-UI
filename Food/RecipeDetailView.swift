@@ -16,6 +16,22 @@ struct RecipeDetailView: View {
             Text(recipe.recipe_name)
                 .font(.title)
                 .bold()
+            Text(recipe.recipe_description)
+                .fontWeight(.regular)
+            Text(recipe.recipe_nutrition.calories)
+                .fontWeight(.regular)
+            Text(recipe.recipe_nutrition.carbohydrate)
+                .fontWeight(.regular)
+            Text(recipe.recipe_nutrition.fat)
+                .fontWeight(.regular)
+            Text(recipe.recipe_nutrition.protein)
+                .fontWeight(.regular)
+            
+            List {
+                ForEach(recipe.recipe_ingredients.ingredient, id: \.self) { i in
+                    Text(i)
+                }
+            }
         }
     }
 }

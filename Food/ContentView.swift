@@ -14,11 +14,6 @@ struct ContentView: View {
         NavigationStack {
             VStack(spacing: 20) {
                 
-                NavigationLink("Authenticate") {
-                    AuthView()
-                }
-                .buttonStyle(.borderedProminent)
-                
                 NavigationLink("Foods") {
                     FoodView()
                 }
@@ -29,10 +24,6 @@ struct ContentView: View {
                 }
                 .buttonStyle(.bordered)*/
                 
-                NavigationLink("Nonsense") {
-                    NonsenseView()
-                }
-                .buttonStyle(.borderedProminent)
 
                 Group {
                     if vm.isLoading {
@@ -42,9 +33,6 @@ struct ContentView: View {
                             .foregroundStyle(.red)
                     } else if let booking = vm.booking {
                         bookingDetailView(booking)
-                    } else {
-                        Text("Press Load to fetch booking")
-                            .foregroundStyle(.secondary)
                     }
                 }
                 .padding(.top, 20)

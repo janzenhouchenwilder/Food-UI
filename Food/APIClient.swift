@@ -34,58 +34,7 @@ enum APIError: Error, LocalizedError {
 }
 
 final class APIClient {
-    func fetchGet() async throws -> Booking {
-        guard let url = URL(string: "http://127.0.0.1:8080/bookings/Ryan") else {
-            throw APIError.invalidURL
-        }
-        
-        var request = URLRequest(url: url)
-                request.httpMethod = "GET"
-                request.timeoutInterval = 20
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        if let http = response as? HTTPURLResponse, !(200...299).contains(http.statusCode) {
-            throw APIError.badStatus(http.statusCode)
-        }
-
-        do {
-            return try JSONDecoder().decode(Booking.self, from: data)
-        } catch {
-            throw APIError.decodingFailed
-        }
-    }
-}
-
-extension APIClient {
-    func authenticate() async throws -> AuthResponse {
-        guard let url = URL(string: "https://restful-booker.herokuapp.com/auth") else {
-            throw APIError.invalidURL
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        // Body JSON
-        let body: [String: String] = [
-            "username": "admin",
-            "password": "password123"
-        ]
-        request.httpBody = try JSONEncoder().encode(body)
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        if let http = response as? HTTPURLResponse, !(200...299).contains(http.statusCode) {
-            throw APIError.badStatus(http.statusCode)
-        }
-
-        do {
-            return try JSONDecoder().decode(AuthResponse.self, from: data)
-        } catch {
-            throw APIError.decodingFailed
-        }
-    }
+    
 }
 
 extension APIClient {
