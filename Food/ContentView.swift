@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var vm = BookingViewModel()
 
     var body: some View {
         NavigationStack {
@@ -25,17 +24,6 @@ struct ContentView: View {
                 .buttonStyle(.bordered)*/
                 
 
-                Group {
-                    if vm.isLoading {
-                        ProgressView("Loading…")
-                    } else if let error = vm.errorMessage {
-                        Text("Error: \(error)")
-                            .foregroundStyle(.red)
-                    } else if let booking = vm.booking {
-                        bookingDetailView(booking)
-                    }
-                }
-                .padding(.top, 20)
 
             }
             .padding()
@@ -43,40 +31,6 @@ struct ContentView: View {
         }
     }
 
-    @ViewBuilder
-    private func bookingDetailView(_ booking: Booking) -> some View {
-        List {
-            HStack{
-                Text("\(booking.firstname) \(booking.lastname)")
-            }
-            HStack{
-                Text("Check-in")
-                Spacer()
-                Text("\(booking.BookingDates.checkin)")
-            }
-            HStack{
-                Text("Check-out")
-                Spacer()
-                Text("\(booking.BookingDates.checkout)")
-            }
-            HStack {
-                Text("Deposit paid")
-                Spacer()
-                Image(systemName: booking.depositpaid ? "checkmark.circle.fill" : "xmark.circle")
-                    .foregroundStyle(booking.depositpaid ? .green : .red)
-            }
-            HStack{
-                Text("Total price")
-                Spacer()
-                Text("$\(booking.totalprice)")
-            }
-            HStack{
-                Text("Additional needs")
-                Spacer()
-                Text("\(booking.additionalneeds)")
-            }
-        }
-    }
 }
 
 
