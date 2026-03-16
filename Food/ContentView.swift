@@ -23,7 +23,14 @@ struct ContentView: View {
                 }
                 .buttonStyle(.bordered)*/
                 
-
+                NavigationLink("Sign in") {
+                    SignInView()
+                }
+                .buttonStyle(.automatic)
+                
+                NavigationLink("Sign up") {
+                    SignUpView()
+                }
 
             }
             .padding()

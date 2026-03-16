@@ -1,0 +1,17 @@
+//
+//  Debug.xcconfig
+//  Food
+//
+//  Created by Janzen Houchen-Wilder on 3/8/26.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+
+SLASH=/
+API_BASE_URL= http:$(SLASH)$(SLASH)127.0.0.1:5000
+SUPABASE_URL = https:$(SLASH)$(SLASH)tixljiumocarnxxegslx.supabase.co
+SUPABASE_KEY = sb_publishable_H81b0Ffru24CysMNZwHdhw_yAz6qEfa
+
+
