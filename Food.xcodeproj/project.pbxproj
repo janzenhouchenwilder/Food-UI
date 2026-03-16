@@ -6,13 +6,34 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C83F1BD42F5DFD0C00CF70A2 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C83F1BD32F5DFD0C00CF70A2 /* Debug.xcconfig */; };
+		C83F1BD92F624C4700CF70A2 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = C83F1BD82F624C4700CF70A2 /* Auth */; };
+		C83F1BDB2F624C4700CF70A2 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = C83F1BDA2F624C4700CF70A2 /* PostgREST */; };
+		C83F1BDD2F624C4700CF70A2 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = C83F1BDC2F624C4700CF70A2 /* Supabase */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		C83F1BD32F5DFD0C00CF70A2 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		C83F5A5C2F0CAB6C00928002 /* Food.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Food.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C83F1BDF2F624E8300CF70A2 /* Exceptions for "Food" folder in "Food" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C83F5A5B2F0CAB6C00928002 /* Food */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C83F5A5E2F0CAB6C00928002 /* Food */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C83F1BDF2F624E8300CF70A2 /* Exceptions for "Food" folder in "Food" target */,
+			);
 			path = Food;
 			sourceTree = "<group>";
 		};
@@ -23,6 +44,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C83F1BDB2F624C4700CF70A2 /* PostgREST in Frameworks */,
+				C83F1BD92F624C4700CF70A2 /* Auth in Frameworks */,
+				C83F1BDD2F624C4700CF70A2 /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,6 +56,7 @@
 		C83F5A532F0CAB6C00928002 = {
 			isa = PBXGroup;
 			children = (
+				C83F1BD32F5DFD0C00CF70A2 /* Debug.xcconfig */,
 				C83F5A5E2F0CAB6C00928002 /* Food */,
 				C83F5A5D2F0CAB6C00928002 /* Products */,
 			);
@@ -65,6 +90,9 @@
 			);
 			name = Food;
 			packageProductDependencies = (
+				C83F1BD82F624C4700CF70A2 /* Auth */,
+				C83F1BDA2F624C4700CF70A2 /* PostgREST */,
+				C83F1BDC2F624C4700CF70A2 /* Supabase */,
 			);
 			productName = Food;
 			productReference = C83F5A5C2F0CAB6C00928002 /* Food.app */;
@@ -94,6 +122,9 @@
 			);
 			mainGroup = C83F5A532F0CAB6C00928002;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C83F1BD72F624C4700CF70A2 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C83F5A5D2F0CAB6C00928002 /* Products */;
 			projectDirPath = "";
@@ -109,6 +140,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C83F1BD42F5DFD0C00CF70A2 /* Debug.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +159,7 @@
 /* Begin XCBuildConfiguration section */
 		C83F5A652F0CAB6D00928002 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C83F1BD32F5DFD0C00CF70A2 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -253,6 +286,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Food/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -280,6 +314,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Food/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -320,6 +355,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C83F1BD72F624C4700CF70A2 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C83F1BD82F624C4700CF70A2 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C83F1BD72F624C4700CF70A2 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		C83F1BDA2F624C4700CF70A2 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C83F1BD72F624C4700CF70A2 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		C83F1BDC2F624C4700CF70A2 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C83F1BD72F624C4700CF70A2 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C83F5A542F0CAB6C00928002 /* Project object */;
 }
