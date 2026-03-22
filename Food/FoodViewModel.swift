@@ -11,6 +11,7 @@ import Foundation
 
 final class FoodViewModel: ObservableObject {
     @Published var foodResult: [Food] = []
+    @Published var todaysFood: [currentFood] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
     

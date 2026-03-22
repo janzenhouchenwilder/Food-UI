@@ -12,6 +12,8 @@ final class AuthViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var didSendConfirmationEmail = false
+    @Published var didSignIn = false
+    @Published var userId: String?
     
     
     func signUp(email: String, password: String) async {
@@ -34,10 +36,13 @@ final class AuthViewModel: ObservableObject {
     func signIn(email: String, password: String) async {
         isLoading = true
         errorMessage = nil
+        didSignIn = false
         defer { isLoading = false }
         
         do {
-            try await AuthService.shared.signIn(email: email, password: password)
+            var response = try await AuthService.shared.signIn(email: email, password: password)
+            didSignIn = true
+            userId = response.id.uuidString
         } catch {
             errorMessage = error.localizedDescription
         }
