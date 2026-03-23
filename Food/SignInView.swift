@@ -11,9 +11,18 @@ struct SignInView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     
+    @EnvironmentObject var session: SessionManager
+    @Environment(\.dismiss) var dismiss
+    
     @StateObject private var vm = AuthViewModel()
     
     var body: some View {
+//        if (vm.didSignIn) {
+//            if let userId = vm.userId {
+//                session.signIn(userId: userId)
+//                dismiss()
+//            }
+//        }
         VStack (spacing: 16) {
             Text("Sign In")
                 .font(.title)
@@ -51,6 +60,12 @@ struct SignInView: View {
             .disabled(vm.isLoading)
         }
         .padding()
+        .onChange(of: vm.didSignIn) { didSignIn in
+            if didSignIn, let userId = vm.userId {
+                session.signIn(userId: userId)
+                dismiss()
+            }
+        }
     }
     
     private func signIn() async {

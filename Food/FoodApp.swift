@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct FoodApp: App {
+    @StateObject var session = SessionManager()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
+                .environmentObject(session)
         }
     }
 }

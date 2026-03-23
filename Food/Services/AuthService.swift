@@ -19,8 +19,9 @@ final class AuthService {
         try await client.auth.signUp(email: email, password: password)
     }
     
-    func signIn(email: String, password: String) async throws {
-        try await client.auth.signIn(email: email, password: password)
+    func signIn(email: String, password: String) async throws -> User {
+        let response = try await client.auth.signIn(email: email, password: password)
+        return response.user
     }
     
     func signOut() async throws {

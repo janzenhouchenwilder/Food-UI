@@ -7,6 +7,13 @@
 
 import Foundation
 
+struct currentFood: Identifiable, Decodable {
+    let id: String
+    let name: String
+    let calories: Int
+    let date: Date
+}
+
 struct Food : Decodable, Identifiable {
     var brand_name: String?
 //    var food_description: String

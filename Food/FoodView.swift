@@ -10,6 +10,7 @@ import SwiftUI
 
 
 struct FoodView: View {
+    var onSelect: ((Food) -> Void)? = nil
     @State private var foodText: String = ""
     @State private var isLoading = false
     @State private var error: String?
