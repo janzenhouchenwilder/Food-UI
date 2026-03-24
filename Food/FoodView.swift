@@ -10,7 +10,9 @@ import SwiftUI
 
 
 struct FoodView: View {
-    var onSelect: ((Food) -> Void)? = nil
+    @Environment(\.dismiss) private var dismiss
+    
+    var onSelect: ((Food, Double) async -> Bool)?
     @State private var foodText: String = ""
     @State private var isLoading = false
     @State private var error: String?
@@ -43,7 +45,7 @@ struct FoodView: View {
                 
                 List(vm.foodResult) { food in
                     NavigationLink {
-                        FoodDetailView(food: food)
+                        FoodDetailView(food: food, onAddFood: onSelect)
                     } label: {
                         VStack(alignment: .leading) {
                             Text(food.food_name)
@@ -63,6 +65,13 @@ struct FoodView: View {
                     }
                 }
                 .scrollDismissesKeyboard(.interactively)
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Close") {
+                        dismiss()
+                    }
+                }
             }
         }
     }
