@@ -9,17 +9,23 @@ import SwiftUI
 
 struct FoodDetailView: View {
     let food: Food
+    var onAddFood: ((Food, Double) async -> Bool)?
     
+    @State private var bannerMessage: String? = nil
+    @State private var showBanner = false
+    @State private var isSuccess = true
     @State private var recipeText: String = ""
     @State private var maxCalories: String = ""
     @State private var maxFatPercent: String = ""
     @State private var maxPrepTime: String = ""
     @State private var maxCarbs: String = ""
+    @State private var servings: String = ""
     
     @StateObject private var vm: RecipeViewModel = RecipeViewModel()
     
     var body: some View {
-        ScrollView {
+        ZStack {
+            ScrollView {
                 VStack(alignment: .center, spacing: 12) {
                     Text(food.food_name)
                         .font(.title)
@@ -55,6 +61,29 @@ struct FoodDetailView: View {
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
                     
+                    VStack {
+                        TextField("Servings", text: $servings)
+                            .keyboardType(.numberPad)
+                            .textFieldStyle(.roundedBorder)
+                    }
+                    
+                    Button("Add Food") {
+                        Task {
+                            let servingsSize = Double(servings) ?? 1.0
+                            let success = await onAddFood?(food, servingsSize) ?? false
+                            
+                            bannerMessage = success ? "Food added!" : "Failed to add food"
+                            showBanner = true
+                            isSuccess = success
+                            
+                            DispatchQueue.main
+                                .asyncAfter(deadline: .now() + 2) {
+                                    showBanner = false
+                                }
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    
                     HStack {
                         if let url = URL(string: food.food_url) {
                             Link("Open source page", destination: url)
@@ -64,7 +93,7 @@ struct FoodDetailView: View {
                     //            Spacer()
                     
                     Divider().padding(.vertical, 8)
-                
+                    
                     VStack(alignment: .center, spacing: 12) {
                         Text("Recipes")
                             .font(.title2)
@@ -119,13 +148,24 @@ struct FoodDetailView: View {
                                 }
                             }
                         }
-//                        .scrollDismissesKeyboard(.interactively)
+                        //                        .scrollDismissesKeyboard(.interactively)
                         .frame(height: UIScreen.main.bounds.height * 0.62)
+                    }
                 }
+                .padding()
             }
-            .padding()
+            .navigationTitle("Food")
+            if let message = bannerMessage, showBanner {
+                Text(message)
+                    .padding()
+                    .background(isSuccess ? Color.green : Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+                    .padding(.top, 50)
+                    .transition(.opacity)
+            }
         }
-        .navigationTitle("Food")
+        .animation(.easeInOut, value: showBanner)
     }
     
     

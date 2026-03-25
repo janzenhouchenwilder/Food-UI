@@ -23,22 +23,68 @@ final class FoodService {
     
     func addFood(userId: String, food: currentFood) async -> Bool {
         do {
-            try await client
-                .from("foods")
+            let now = Date()
+            let calendar = Calendar.current
+
+            let hour = calendar.component(.hour, from: now)
+            let minute = calendar.component(.minute, from: now)
+
+            let totalMinutes = hour * 60 + minute
+
+            let meal_type: String
+
+            if totalMinutes < (11 * 60 + 30) {
+                meal_type = "Breakfast"
+            } else if totalMinutes < (14 * 60 + 30) {
+                meal_type = "Lunch"
+            } else {
+                meal_type = "Dinner"
+            }
+            
+            let response = try await client
+                .from("food_logs")
                 .insert([
                     "user_id": userId,
-                    "name": food.name,
+                    "food_name": food.food_name,
                     "calories": String(food.calories),
-                    "date": ISO8601DateFormatter().string(from: food.date)
+                    "carbs": String(food.carbs),
+                    "fat": String(food.fat),
+                    "protein": String(food.protein),
+                    "serving_amount": String(food.serving_amount),
+                    "serving_unit": food.serving_unit,
+                    "meal_type": meal_type,
+                    "fatsecret_food_id": String(food.fatsecret_food_id),
+                    "eaten_at": food.eaten_at,
+                    "created_at": food.created_at,
+                    "total_servings": String(food.total_servings)
+                    
                 ])
                 .execute()
+            print(response)
             return true
         } catch {
+            print(error)
             return false
         }
     }
     
-    func getFoods() async {
+    func getFoods(userId: String) async -> [currentFood] {
+        do {
+            let startOfDay = Calendar.current.startOfDay(for: Date())
+                
+            let response = try await client
+                .from("food_logs")
+                .select()
+                .eq("user_id", value: userId)
+                .gte("created_at", value: startOfDay.ISO8601Format())
+                .execute()
+            print(response.data)
+            let foods: [currentFood] = try JSONDecoder().decode([currentFood].self, from: response.data)
+            return foods
+        } catch {
+            print("Failed to fetch today's foods: \(error)")
+        }
         
+        return [currentFood]()
     }
 }

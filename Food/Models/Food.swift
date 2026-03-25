@@ -9,9 +9,18 @@ import Foundation
 
 struct currentFood: Identifiable, Decodable {
     let id: String
-    let name: String
+    let user_id: String
+    let food_name: String
     let calories: Int
-    let date: Date
+    let serving_amount: Int
+    let serving_unit: String
+    let protein: Int
+    let fat: Int
+    let carbs: Int
+    let fatsecret_food_id: Int64
+    let created_at: String
+    let eaten_at: String
+    let total_servings: Double
 }
 
 struct Food : Decodable, Identifiable {

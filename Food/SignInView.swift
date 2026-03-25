@@ -23,47 +23,52 @@ struct SignInView: View {
 //                dismiss()
 //            }
 //        }
-        VStack (spacing: 16) {
-            Text("Sign In")
-                .font(.title)
-                .bold()
-                .padding()
-            TextField("Email", text: $email)
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled()
-                .keyboardType(.emailAddress)
-                .multilineTextAlignment(.center)
-                .textFieldStyle(.roundedBorder)
-                .padding(.horizontal)
-
-            SecureField("Password", text: $password)
-                .multilineTextAlignment(.center)
-                .textFieldStyle(.roundedBorder)
-                .padding(.horizontal)
-            
-            if let msg = vm.errorMessage {
-                Text(msg)
-                    .foregroundStyle(.red)
+        ZStack {
+            Color(.systemBackground)
+                .ignoresSafeArea()
+            VStack (spacing: 16) {
+                Text("Sign In")
+                    .font(.title)
+                    .bold()
+                    .padding()
+                TextField("Email", text: $email)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                    .keyboardType(.emailAddress)
+                    .multilineTextAlignment(.center)
+                    .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
-            }
-
-            if vm.isLoading {
-                ProgressView()
-            }
-
-            Button("Sign In") {
-                Task {
-                    await signIn()
+                
+                SecureField("Password", text: $password)
+                    .multilineTextAlignment(.center)
+                    .textFieldStyle(.roundedBorder)
+                    .background(Color(.systemGray5))
+                    .padding(.horizontal)
+                
+                if let msg = vm.errorMessage {
+                    Text(msg)
+                        .foregroundStyle(.red)
+                        .padding(.horizontal)
                 }
+                
+                if vm.isLoading {
+                    ProgressView()
+                }
+                
+                Button("Sign In") {
+                    Task {
+                        await signIn()
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(vm.isLoading)
             }
-            .buttonStyle(.borderedProminent)
-            .disabled(vm.isLoading)
-        }
-        .padding()
-        .onChange(of: vm.didSignIn) { didSignIn in
-            if didSignIn, let userId = vm.userId {
-                session.signIn(userId: userId)
-                dismiss()
+            .padding()
+            .onChange(of: vm.didSignIn) { didSignIn in
+                if didSignIn, let userId = vm.userId {
+                    session.signIn(userId: userId)
+                    dismiss()
+                }
             }
         }
     }

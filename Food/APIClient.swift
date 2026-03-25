@@ -96,11 +96,11 @@ extension APIClient {
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
-        if let http = response as? HTTPURLResponse {
-            print("HTTP status:", http.statusCode)
-        }
-        
-        print("Raw JSON:", String(data: data, encoding: .utf8) ?? "<not utf8>")
+//        if let http = response as? HTTPURLResponse {
+//            print("HTTP status:", http.statusCode)
+//        }
+//        
+//        print("Raw JSON:", String(data: data, encoding: .utf8) ?? "<not utf8>")
         
         do {
             let decoded = try JSONDecoder().decode(RecipesResponse.self, from: data)

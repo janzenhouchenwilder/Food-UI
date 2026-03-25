@@ -15,6 +15,8 @@ struct FoodApp: App {
         WindowGroup {
             HomeView()
                 .environmentObject(session)
+//                .preferredColorScheme(.dark)
+//                .background(Color(.systemGray6))
         }
     }
 }
