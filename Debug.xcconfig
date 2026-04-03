@@ -14,4 +14,4 @@ API_BASE_URL= http:$(SLASH)$(SLASH)127.0.0.1:5000
 SUPABASE_URL = https:$(SLASH)$(SLASH)tixljiumocarnxxegslx.supabase.co
 SUPABASE_KEY = sb_publishable_H81b0Ffru24CysMNZwHdhw_yAz6qEfa
 
-// db=bucfodqojjIrkedqy5
+
