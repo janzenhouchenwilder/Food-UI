@@ -56,7 +56,10 @@ final class FoodService {
                     "fatsecret_food_id": String(food.fatsecret_food_id),
                     "eaten_at": food.eaten_at,
                     "created_at": food.created_at,
-                    "total_servings": String(food.total_servings)
+                    "total_servings": String(food.total_servings),
+                    "food_url": food.food_url,
+                    "food_type": food.food_type,
+                    "food_brand": food.food_brand
                     
                 ])
                 .execute()
