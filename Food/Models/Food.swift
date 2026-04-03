@@ -21,6 +21,9 @@ struct currentFood: Identifiable, Decodable {
     let created_at: String
     let eaten_at: String
     let total_servings: Double
+    let food_url: String?
+    let food_type: String?
+    let food_brand: String?
 }
 
 struct Food : Decodable, Identifiable {
@@ -52,4 +55,50 @@ struct FoodDescription: Decodable {
     var fat: String
     var carbs: String
     var protein: String
+}
+
+//Search by id
+
+struct FoodByIdResponse: Decodable {
+    let food: FoodById
+}
+
+struct FoodById: Decodable {
+    let food_id: String
+    let food_name: String
+    let food_type: String
+    let food_url: String
+    let servings: ServingsResponse
+}
+
+struct ServingsResponse: Decodable {
+    let serving: [ServingDetail]
+}
+
+struct ServingDetail: Decodable, Identifiable {
+    let calcium: String
+    let calories: String
+    let carbohydrate: String
+    let cholesterol: String
+    let fat: String
+    let fiber: String
+    let iron: String
+    let measurement_description: String
+    let metric_serving_amount: String
+    let metric_serving_unit: String
+    let monounsaturated_fat: String
+    let number_of_units: String
+    let polyunsaturated_fat: String
+    let potassium: String
+    let protein: String
+    let saturated_fat: String
+    let serving_description: String
+    let serving_id: String
+    let serving_url: String
+    let sodium: String
+    let sugar: String
+    let vitamin_a: String
+    let vitamin_c: String
+
+    var id: String { serving_id }
 }

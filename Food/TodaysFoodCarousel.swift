@@ -10,24 +10,50 @@ import SwiftUI
 struct TodaysFoodCarousel: View {
     let foods: [currentFood]
     private let cardWidth: CGFloat = 150
+    
+    @StateObject private var vm = FoodViewModel()
 
     var body: some View {
         GeometryReader { geo in
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
+                HStack(spacing: 14) {
                     ForEach(foods, id: \.id) { food in
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(food.food_name)
-                                .font(.headline)
-                                .lineLimit(2)
+                        NavigationLink {
+                            FoodDetailLoaderView(food: food)
+                        } label: {
+                            VStack(alignment: .leading, spacing: 10) {
+                                
+                                Text(food.food_name)
+                                    .font(.headline)
+                                    .lineLimit(2)
 
-                            Text("\(food.calories) cal")
-                                .font(.subheadline)
+                                Spacer()
+
+                                HStack {
+                                    Image(systemName: "flame.fill")
+                                        .foregroundColor(.orange)
+
+                                    Text("\(food.calories) cal")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            .padding()
+                            .frame(width: cardWidth, height: 110, alignment: .topLeading)
+                            .background(
+                                LinearGradient(
+                                    colors: [
+                                        Color.blue.opacity(0.15),
+                                        Color.purple.opacity(0.15)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .cornerRadius(12)
+                            .shadow(color: .black.opacity(0.2), radius: 4, y: 2)
                         }
-                        .padding()
-                        .frame(width: cardWidth, height: 100, alignment: .topLeading)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
+                        .buttonStyle(.plain) // prevents weird button styling
                     }
                 }
                 .frame(
@@ -37,7 +63,7 @@ struct TodaysFoodCarousel: View {
                 .padding(.horizontal)
             }
         }
-        .frame(height: 120)
+        .frame(height: 130)
     }
 }
 

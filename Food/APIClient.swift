@@ -71,6 +71,59 @@ extension APIClient {
 }
 
 extension APIClient {
+    func getFoodById(food: currentFood) async throws -> Food {
+        let encoded = food.fatsecret_food_id
+        guard let url = URL(string: "http://127.0.0.1:5000/food/id/\(encoded)") else {
+            throw APIError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        if let http = response as? HTTPURLResponse {
+            print("HTTP status:", http.statusCode)
+        }
+        
+        do {
+            let decoded = try JSONDecoder().decode(FoodByIdResponse.self, from: data)
+            var foodResponse = await foodBuilder(foodById: decoded, food: food)
+            return foodResponse
+        } catch {
+            throw APIError.decodingFailed
+        }
+    }
+    
+    private func foodBuilder(foodById: FoodByIdResponse, food: currentFood) async -> Food {
+        var serving: ServingDetail? = nil
+        for item in foodById.food.servings.serving {
+            if Int((Double(item.calories) ?? 0).rounded()) == food.calories && Int((Double(item.carbohydrate) ?? 0).rounded()) == food.carbs
+                && Int((Double(item.fat) ?? 0).rounded()) == food.fat {
+                serving = item
+                break
+            }
+        }
+        
+        return Food(
+            brand_name: food.food_brand,
+                food_id: String(food.fatsecret_food_id),
+                food_name: food.food_name,
+                food_type: food.food_type ?? "Generic",
+                food_url: food.food_url ?? "Generic",
+                food_description: FoodDescription(
+                    serving_size: String(food.serving_amount),
+                    calories: "\(food.calories) cal",
+                    fat: "\(food.fat) g",
+                    carbs: "\(food.carbs) g",
+                    protein: "\(food.protein) g"
+                )
+            )
+    }
+}
+
+extension APIClient {
     func getRecipes(searchTerm: String,
                     maxCalories: Int?,
                     maxPrepTime: Int?,

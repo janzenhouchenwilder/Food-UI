@@ -75,7 +75,10 @@ final class HomeViewModel: ObservableObject {
             fatsecret_food_id: Int64(food.id) ?? 0,
             created_at:ISO8601DateFormatter().string(from: Date()),
             eaten_at:ISO8601DateFormatter().string(from: Date()),
-            total_servings:servings
+            total_servings:servings,
+            food_url: food.food_url,
+            food_type: food.food_type,
+            food_brand: food.brand_name ?? "Generic"
         )
         
         do {
