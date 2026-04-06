@@ -67,32 +67,30 @@ struct FoodView: View {
                         NavigationLink {
                             FoodDetailView(food: food, onAddFood: onSelect)
                         } label: {
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 2) {
                                 Text(food.food_name)
                                     .font(.headline)
                                     .foregroundStyle(.white)
                                     .lineLimit(1)
-                                
+
                                 if let brand = food.brand_name {
                                     Text(brand)
                                         .font(.caption)
-//                                        .foregroundStyle(.green.opacity(0.8))
                                         .foregroundStyle(Color(red: 0.0, green: 0.8, blue: 0.3))
                                 }
-                                
+
                                 Text(food.food_description.serving_size)
                                     .font(.caption)
                                     .foregroundStyle(Color.green.opacity(0.7))
                                     .lineLimit(2)
                             }
-                            .padding(4)
+                            // remove .padding()
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .frame(height: 80)
-                            .background(.ultraThinMaterial)
-                            .cornerRadius(12)
                         }
                         .listRowBackground(Color.clear)
                     }
+                    .listRowSeparator(.visible)
+                    .listRowSeparatorTint(.white.opacity(0.2))
                     .scrollDismissesKeyboard(.interactively)
                     .scrollContentBackground(.hidden)
                     .listRowSpacing(10)
