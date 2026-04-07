@@ -25,47 +25,60 @@ struct FoodDetailView: View {
     
     var body: some View {
         ZStack {
+            // BACKGROUND
+            LinearGradient(
+                colors: [Color.blue.opacity(0.3), Color.green.opacity(0.3)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            Image("logo")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 450)
+                .opacity(0.10)
+
             ScrollView {
                 VStack(alignment: .center, spacing: 12) {
                     Text(food.food_name)
                         .font(.title)
                         .bold()
+                        .foregroundStyle(.white)
+
                     if let brand = food.brand_name {
-                        Text(brand).foregroundStyle(.secondary)
+                        Text(brand)
+                            .foregroundStyle(.white.opacity(0.8))
                             .font(.title3)
                     }
                     
                     VStack {
                         Text("Serving Size")
                         Text("\(food.food_description.serving_size)")
-                            .fontWeight(.regular)
                         
                         Text("Calories")
                         Text("\(food.food_description.calories)")
-                            .fontWeight(.regular)
                         
                         Text("Fat")
                         Text("\(food.food_description.fat)")
-                            .fontWeight(.regular)
                         
                         Text("Carbs")
                         Text("\(food.food_description.carbs)")
-                            .fontWeight(.regular)
                         
                         Text("Protein")
                         Text("\(food.food_description.protein)")
-                            .fontWeight(.regular)
                     }
                     .font(.body)
-                    .bold()                       // makes the labels bold
+                    .bold()
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
+                    .foregroundStyle(.white)
                     
                     VStack {
                         TextField("Servings", text: $servings)
                             .keyboardType(.numberPad)
                             .textFieldStyle(.roundedBorder)
-                    }
+                    }.padding(.horizontal, 16)
                     
                     Button("Add Food") {
                         Task {
@@ -87,10 +100,9 @@ struct FoodDetailView: View {
                     HStack {
                         if let url = URL(string: food.food_url) {
                             Link("Open source page", destination: url)
+                                .foregroundStyle(.white)
                         }
                     }
-                    
-                    //            Spacer()
                     
                     Divider().padding(.vertical, 8)
                     
@@ -99,6 +111,8 @@ struct FoodDetailView: View {
                             .font(.title2)
                             .bold()
                             .frame(maxWidth: .infinity, alignment: .center)
+                            .foregroundStyle(.white)
+
                         HStack {
                             TextField("Max calories", text: $maxCalories)
                                 .keyboardType(.numberPad)
@@ -109,7 +123,7 @@ struct FoodDetailView: View {
                             TextField("Max prep \n(min)", text: $maxPrepTime)
                                 .keyboardType(.numberPad)
                                 .textFieldStyle(.roundedBorder)
-                        }
+                        }.padding(.horizontal, 16)
                         HStack {
                             TextField("Max carbs %", text: $maxCarbs)
                                 .keyboardType(.numberPad)
@@ -123,8 +137,9 @@ struct FoodDetailView: View {
                             }
                         }
                         .buttonStyle(.borderedProminent)
+
                         if vm.isLoading {
-                            ProgressView()
+                            ProgressView().tint(.white)
                         }
                         
                         if let msg = vm.errorMessage {
@@ -140,21 +155,28 @@ struct FoodDetailView: View {
                                 VStack(alignment: .leading) {
                                     Text(recipe.recipe_name)
                                         .font(.headline)
-                                    Text(
-                                        recipe.recipe_ingredients.ingredient.first ?? ""
-                                    )
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                        .foregroundStyle(.white)
+
+                                    Text(recipe.recipe_ingredients.ingredient.first ?? "")
+                                        .font(.caption)
+                                        .foregroundStyle(Color(red: 0.0, green: 0.8, blue: 0.3))
                                 }
+                                .padding()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+//                                .background(.ultraThinMaterial) // glass
+                                .cornerRadius(12)
                             }
+                            .listRowBackground(Color.clear)
                         }
-                        //                        .scrollDismissesKeyboard(.interactively)
+                        .scrollContentBackground(.hidden) // key
+                        .background(Color.clear)
                         .frame(height: UIScreen.main.bounds.height * 0.62)
                     }
                 }
                 .padding()
             }
             .navigationTitle("Food")
+
             if let message = bannerMessage, showBanner {
                 Text(message)
                     .padding()
@@ -167,7 +189,6 @@ struct FoodDetailView: View {
         }
         .animation(.easeInOut, value: showBanner)
     }
-    
     
     private func searchRecipes() async {
         let trimmed = food.food_name.trimmingCharacters(
