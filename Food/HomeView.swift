@@ -70,42 +70,48 @@ struct HomeView: View {
                     } else {
                         
                         // Calorie Card
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Today")
-                                    .font(.headline)
-                                    .opacity(0.9)
-
-                                Text("\(vm.totalCalories)")
+                        NavigationLink {
+                            TodayDetailView(todaysFood: vm.todaysFood)
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Today")
+                                        .font(.headline)
+                                        .opacity(0.9)
+                                    
+                                    Text("\(vm.totalCalories)")
+                                        .font(.largeTitle)
+                                        .bold()
+                                    
+                                    Text("calories")
+                                        .font(.caption)
+                                        .opacity(0.8)
+                                }
+                                
+                                Spacer()
+                                
+                                Image(systemName: "flame.fill")
                                     .font(.largeTitle)
-                                    .bold()
-
-                                Text("calories")
-                                    .font(.caption)
-                                    .opacity(0.8)
                             }
-
-                            Spacer()
-
-                            Image(systemName: "flame.fill")
-                                .font(.largeTitle)
-                        }
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(
-                            LinearGradient(
-                                colors: [Color.blue, Color.purple],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                LinearGradient(
+                                    colors: [Color.blue, Color.purple],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
                             )
-                        )
-                        .cornerRadius(12)
-                        .shadow(radius: 5)
+                            .cornerRadius(12)
+                            .shadow(radius: 5)
+                        }
+//                        .buttonStyle(.plain)
                         
                         Text("Today's Meals")
                             .font(.headline)
-                            .foregroundStyle(.white)
+                            //.foregroundStyle(.white)
+                            .foregroundStyle(Color.purple.opacity(0.80))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
                         
@@ -133,7 +139,27 @@ struct HomeView: View {
                         }
                         .padding(.horizontal)
                         
-                        Spacer()
+//                        Spacer()
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("History")
+                                .font(.title)
+                                .foregroundStyle(.white)
+
+                            HStack(spacing: 12) {
+                                NavigationLink {
+                                    FoodHistoryView(range: .sevenDays)
+                                } label: {
+                                    historyCard(title: "7 Days", icon: "calendar")
+                                }
+
+                                NavigationLink {
+                                    FoodHistoryView(range: .fourWeeks)
+                                } label: {
+                                    historyCard(title: "4 Weeks", icon: "calendar.badge.clock")
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
                     }
                 }
                 .task(id: session.userId) {
@@ -165,6 +191,18 @@ struct HomeView: View {
                 return success
             }
         }
+    }
+    
+    func historyCard(title: String, icon: String) -> some View {
+        HStack {
+            Image(systemName: icon)
+            Text(title).bold()
+        }
+        .foregroundStyle(.white)
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(.ultraThinMaterial)
+        .cornerRadius(12)
     }
 }
 

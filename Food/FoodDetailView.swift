@@ -168,7 +168,7 @@ struct FoodDetailView: View {
                             }
                             .listRowBackground(Color.clear)
                         }
-                        .scrollContentBackground(.hidden) // key
+                        .scrollContentBackground(.hidden)
                         .background(Color.clear)
                         .frame(height: UIScreen.main.bounds.height * 0.62)
                     }

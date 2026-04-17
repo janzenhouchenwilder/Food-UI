@@ -90,4 +90,36 @@ final class FoodService {
         
         return [currentFood]()
     }
+    
+    func getFoodsByDate(userId: String, dateString: String) async -> [Date: [currentFood]] {
+        do {
+            let formatter = ISO8601DateFormatter()
+            guard let startDate = formatter.date(from: dateString) else { return [:] }
+            
+            let today = Calendar.current.startOfDay(for: Date())
+            
+            let response = try await client
+                .from("food_logs")
+                .select()
+                .eq("user_id", value: userId)
+                .gte("created_at", value: startDate.ISO8601Format())
+                .lte("created_at", value: today.ISO8601Format())
+                .execute()
+            
+            let foods = try JSONDecoder().decode([currentFood].self, from: response.data)
+            
+            var foodsByDate: [Date: [currentFood]] = [:]
+            for food in foods {
+                if let date = formatter.date(from: food.created_at) {
+                    let day = Calendar.current.startOfDay(for: date)
+                    foodsByDate[day, default: []].append(food)
+                }
+            }
+            
+            return foodsByDate
+        } catch {
+            print("Failed: \(error)")
+            return [:]
+        }
+    }
 }
